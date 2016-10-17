@@ -28,3 +28,5 @@ makefile
 Sherpa2014/*
 ARPACK/*
 compute_tree
+*.
+run

@@ -1,5 +1,4 @@
 #include <iostream>
-#include "tools.h"
 
 // A class for the underlying stock 
 class stock{
@@ -20,7 +19,7 @@ public:
 // general derivatives 
 class derivative{
 public:
-  virtual double black_scholes_price(stock, double);
+  virtual double black_scholes_price(stock , double)=0;
   double get_strike(void);
   double get_expiry(void);
   void set_strike(double);

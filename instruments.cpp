@@ -1,56 +1,20 @@
 #include <iostream>
-#include "tools.h"
 #include <math.h>
+#include "tools.hpp"
+#include "instruments.hpp"
+
 
 using namespace std;
 
-// A class for the underlying stock 
-class stock{
-  double rate,dividend_rate,value,vol;  
-public:
-  double get_interest_rate(void);
-  double get_dividend_rate(void);
-  double get_spot(void);
-  double get_vol(void);
-  double forward_price(double);
-  void set_interest_rate(double);
-  void set_dividend_rate(double);
-  void set_spot(double);
-  void set_vol(double); 
-};
-
-//this is an abstract class for
-//general derivatives 
-class derivative{
-public:
-  virtual double black_scholes_price(stock, double);
-  double get_strike(void);
-  double get_expiry(void);
-  void set_strike(double);
-  void set_expiry(double);
-protected:
-  double strike,expiry;  
-};
-
-
-// the following classes extend "derivative" 
-class Forward_Contract: public derivative
-{
-public: 
-  double black_scholes_price(stock S, double time)
+double Forward_Contract::black_scholes_price(stock S, double time)
   {
     double spot = S.get_spot();
     double rate = S.get_interest_rate()-S.get_dividend_rate();
     
     return spot - exp( -1 * rate * (expiry - time) ) * strike;
   }
-  
-};
 
-class Call: public derivative
-{
-public: 
-  double black_scholes_price(stock S, double time)
+double Call::black_scholes_price(stock S, double time)
   {
     double spot = S.get_spot();
     double rate = S.get_interest_rate()-S.get_dividend_rate();
@@ -60,8 +24,6 @@ public:
     
     return spot * Cum_Norm(d1)- exp( -1 * rate * (expiry - time) ) * strike * Cum_Norm(d2);
   }
-
-};
 
 // class Put: public derivative
 // {
