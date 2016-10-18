@@ -20,12 +20,16 @@ public:
 class derivative{
 public:
   virtual double black_scholes_price(stock , double)=0;
+  virtual double payout(stock,double)=0;
+  virtual int print_name(void)=0;
+  double price(stock, double);   
   double get_strike(void);
   double get_expiry(void);
   void set_strike(double);
   void set_expiry(double);
+  void print_details(stock,double); 
 protected:
-  double strike,expiry;  
+  double strike,expiry;
 };
 
 
@@ -33,54 +37,43 @@ protected:
 class Forward_Contract: public derivative
 {
 public: 
-  double black_scholes_price(stock S, double time);  
+  double black_scholes_price(stock S, double time);
+  double payout(stock S, double time);
+  int print_name(void);
 };
 
 class Call: public derivative
 {
 public: 
   double black_scholes_price(stock S, double time);
+  double payout(stock S, double time);  
+  int print_name(void);
 };
 
-/* class Put: public derivative */
-/* { */
-/* }; */
+class Put: public derivative
+{
+  double black_scholes_price(stock S, double time);
+  double payout(stock S, double time);  
+  int print_name(void);
+};
 
-/* class Digital_Call: public derivative */
-/* { */
-/* }; */
+class Digital_Call: public derivative
+{
+  double black_scholes_price(stock S, double time);
+  double payout(stock S, double time);  
+  int print_name(void);
+};
 
-/* class Digital_Put: public derivative */
-/* { */
-/* }; */
+class Digital_Put: public derivative
+{
+  double black_scholes_price(stock S, double time);
+  double payout(stock S, double time);  
+  int print_name(void);
+};
 
-/* class ZeroCoupon_Bond: public derivative */
-/* { */
-/* }; */
-
-
-/* double derivative::get_strike(); */
-
-/* double derivative::get_expiry(); */
-
-/* double stock::get_interest_rate(); */
-
-/* double stock::get_dividend_rate(); */
-
-/* double stock::get_spot(); */
-
-/* double stock::get_forward_price(double time); */
-
-/* void derivative::set_strike(double K); */
-
-/* void derivative::set_expiry(double T); */
-
-/* void stock::set_interest_rate(double r); */
-
-/* void stock::set_dividend_rate(double d); */
-
-/* void stock::set_spot(double S); */
-
-/* void stock::set_vol(double sig); */
-
-/* double stock::get_vol(); */
+class ZeroCoupon_Bond: public derivative
+{
+  double black_scholes_price(stock S, double time);
+  double payout(stock S, double time);  
+  int print_name(void);
+};
