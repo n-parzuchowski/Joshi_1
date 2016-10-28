@@ -2,6 +2,8 @@
 #include <iostream>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h> 
+#include "tools.hpp" 
 
 using namespace std;
 
@@ -96,3 +98,37 @@ double Cum_Norm(double x)
     t = 1-t;
   return t;
 }
+
+void random::init(double mu , double sig ) 
+{
+  srand(time(NULL));
+  mean = mu;
+  stdv = sig;
+}
+
+void Uniform_Random::initialize(double mu , double sig ) 
+{
+  init(mu,sig);
+}
+
+void Gaussian_Random::initialize(double mu , double sig ) 
+{
+  init(mu,sig);
+}
+
+double Uniform_Random::draw()
+{
+  int v1 = rand();
+  double a1 = v1; 
+  double a2 = a1 / RAND_MAX; 
+  return a2 * 2  * stdv -  stdv + mean;   
+}     
+  
+double Gaussian_Random::draw()
+{
+  int v1 = rand(); 
+  double a1 = v1;
+  double a2 = a1 / RAND_MAX;   
+  return Inv_Cum_Norm(a2) * stdv + mean; 
+}     
+  

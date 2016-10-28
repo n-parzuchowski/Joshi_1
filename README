@@ -1,0 +1,8 @@
+This code is an implementation of the Black-Scholes price for several financial derivatives. 
+
+It's pretty simple, but the goal is to develop an object oriented approach to vanilla options, which can be recycled for use in more complicated projects. 
+
+The formulas are checked for consistency, and validated using Monte Carlo. 
+
+The code runs a python script to make a plot of the price of a European call as a function of strike.
+That plot is saved as call_pricing.pdf

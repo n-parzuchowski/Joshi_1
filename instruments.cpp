@@ -31,8 +31,8 @@ double Call::black_scholes_price(stock S, double time)
     double spot = S.get_spot();
     double rate = S.get_interest_rate()-S.get_dividend_rate();
     double vol = S.get_vol();
-    double d1 = (log(spot/strike) + (rate + vol*vol/2.0) * (expiry-time))/(vol * sqrt(vol));
-    double d2 = (log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(vol));
+    double d1 = (log(spot/strike) + (rate + vol*vol/2.0) * (expiry-time))/(vol * sqrt(expiry-time));
+    double d2 = (log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(expiry-time));
     
     return spot * Cum_Norm(d1)- exp( -1 * rate * (expiry - time) ) * strike * Cum_Norm(d2);
   }
@@ -59,8 +59,8 @@ double Put::black_scholes_price(stock S, double time)
     double spot = S.get_spot();
     double rate = S.get_interest_rate()-S.get_dividend_rate();
     double vol = S.get_vol();
-    double d1 = -1*((log(spot/strike) + (rate + vol*vol/2.0) * (expiry-time))/(vol * sqrt(vol)));
-    double d2 = -1*((log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(vol)));
+    double d1 = -1*((log(spot/strike) + (rate + vol*vol/2.0) * (expiry-time))/(vol * sqrt(expiry-time)));
+    double d2 = -1*((log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(expiry-time)));
     
     return  exp( -1 * rate * (expiry - time) ) * strike * Cum_Norm(d2) - spot * Cum_Norm(d1);
   }
@@ -68,7 +68,7 @@ double Put::black_scholes_price(stock S, double time)
 double Put::payout(stock S, double time)
 {
   double spot = S.get_spot();
-  if ( spot < strike ) 
+  if ( strike - spot > 1e-8 ) 
     return strike - spot;
   else
     return 0.0; 
@@ -85,7 +85,7 @@ double Digital_Call::black_scholes_price(stock S, double time)
     double spot = S.get_spot();
     double rate = S.get_interest_rate()-S.get_dividend_rate();
     double vol = S.get_vol();
-    double d2 = (log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(vol));
+    double d2 = (log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(expiry-time));
     
     return  exp( -1 * rate * (expiry - time) ) * Cum_Norm(d2);
   }
@@ -110,7 +110,7 @@ double Digital_Put::black_scholes_price(stock S, double time)
     double spot = S.get_spot();
     double rate = S.get_interest_rate()-S.get_dividend_rate();
     double vol = S.get_vol();
-    double d2 = -1*((log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(vol)));
+    double d2 = -1*((log(spot/strike) + (rate - vol*vol/2.0) * (expiry-time))/(vol * sqrt(expiry-time)));
     
     return  exp( -1 * rate * (expiry - time) ) * Cum_Norm(d2);
   }
@@ -154,6 +154,11 @@ int ZeroCoupon_Bond::print_name()
 double derivative::price(stock S, double t)
 {
   return black_scholes_price(S,t);
+}
+
+double derivative::pay(stock S, double t)
+{
+  return payout(S,t);
 }
 
 

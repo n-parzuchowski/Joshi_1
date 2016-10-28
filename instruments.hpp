@@ -22,7 +22,8 @@ public:
   virtual double black_scholes_price(stock , double)=0;
   virtual double payout(stock,double)=0;
   virtual int print_name(void)=0;
-  double price(stock, double);   
+  double price(stock, double);
+  double pay(stock, double); 
   double get_strike(void);
   double get_expiry(void);
   void set_strike(double);
